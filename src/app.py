@@ -7,7 +7,7 @@ app = FastAPI(title="Restaurante Chapa Quente")
 menu_builder = MenuBuilder()
 
 
-restriction_options = {k: {"value ": k} for k in Restriction._member_names_}
+restriction_options = {k: {"value": k} for k in Restriction._member_names_}
 
 
 @app.get("/", tags=["menu"])
