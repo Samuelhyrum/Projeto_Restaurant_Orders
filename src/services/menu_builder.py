@@ -24,6 +24,26 @@ class MenuBuilder:
 
         self.inventory.consume_recipe(curr_dish.recipe)
 
+    def check_ingredient_amount(self, recipe):
+        try:
+            result = self.inventory.check_recipe_availability(recipe)
+        except KeyError:
+            return False
+        else:
+            return result
+
     # Req 4
     def get_main_menu(self, restriction=None) -> pd.DataFrame:
-        pass
+        df_data = []
+        for dish in self.menu_data.dishes:
+            dish_info = {
+                "dish_name": dish.name,
+                "ingredients": dish.get_ingredients(),
+                "price": dish.price,
+                "restrictions": dish.get_restrictions(),
+            }
+            if self.check_ingredient_amount(dish.recipe) is False:
+                continue
+            if restriction not in dish_info["restrictions"]:
+                df_data.append(dish_info)
+        return pd.DataFrame(df_data)
